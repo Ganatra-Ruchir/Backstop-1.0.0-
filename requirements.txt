@@ -1,0 +1,12 @@
+# Runtime: what the scoring service needs. Pinned exactly, so an artifact
+# trained today loads and scores identically tomorrow.
+numpy==2.5.3
+pandas==3.0.5
+scikit-learn==1.9.0
+xgboost==3.4.1
+joblib==1.6.0
+scipy==1.18.1
+
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.5
