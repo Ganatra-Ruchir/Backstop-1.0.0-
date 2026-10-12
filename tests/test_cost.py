@@ -99,3 +99,27 @@ def test_mismatched_lengths_raise(scored):
     y, s, amt = scored
     with pytest.raises(ValueError, match="same length"):
         evaluate_threshold(y, s, amt[:-1], 0.5)
+
+
+@pytest.mark.parametrize("score", [0.0, 0.5, 1.0])
+def test_tied_scores_cannot_force_budget_violation(score):
+    b = choose_threshold([0, 1, 0], [score] * 3, [10, 20, 30], max_alert_rate=0.1)
+    assert b.alerts == 0
+    assert b.alert_rate <= 0.1
+
+
+def test_zero_budget_is_feasible():
+    b = choose_threshold([0, 1], [0.1, 1.0], [10, 20], max_alert_rate=0)
+    assert b.alerts == 0
+
+
+@pytest.mark.parametrize("scores", [[], [float("nan")], [float("inf")], [-0.1], [1.1]])
+def test_invalid_candidate_scores_raise(scores):
+    with pytest.raises(ValueError, match="finite probabilities"):
+        candidate_thresholds(scores)
+
+
+@pytest.mark.parametrize("budget", [-0.1, 1.1, float("nan")])
+def test_invalid_alert_budget_raises(budget):
+    with pytest.raises(ValueError, match="max_alert_rate"):
+        candidate_thresholds([0.5], max_alert_rate=budget)

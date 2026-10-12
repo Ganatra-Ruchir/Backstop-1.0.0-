@@ -4,11 +4,11 @@
 
 **Card-fraud decisioning that is graded on the future, priced in euros, and can say why.**
 
-[![CI](https://github.com/Ganatra-Ruchir/backstop/actions/workflows/ci.yml/badge.svg)](https://github.com/Ganatra-Ruchir/backstop/actions/workflows/ci.yml)
+[![CI](https://github.com/Ganatra-Ruchir/Backstop-1.0.0-/actions/workflows/ci.yml/badge.svg)](https://github.com/Ganatra-Ruchir/Backstop-1.0.0-/actions/workflows/ci.yml)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![XGBoost](https://img.shields.io/badge/XGBoost-3.4-EC6E00)](https://xgboost.readthedocs.io)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.141-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Tests](https://img.shields.io/badge/tests-85-1baf7a)](tests/)
+[![Tests](https://img.shields.io/badge/tests-regression_suite-1baf7a)](tests/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 </div>
