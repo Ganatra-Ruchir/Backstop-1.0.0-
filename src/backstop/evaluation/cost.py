@@ -127,8 +127,12 @@ def candidate_thresholds(
     of the range gets a coarse grid, which is all it needs.
     """
     s = np.asarray(y_score, dtype=float).ravel()
+    if not len(s) or not np.isfinite(s).all() or ((s < 0) | (s > 1)).any():
+        raise ValueError("scores must be a nonempty array of finite probabilities")
     n = len(s)
     budget = CONFIG.serving.alert_budget if max_alert_rate is None else max_alert_rate
+    if not np.isfinite(budget) or not 0 <= budget <= 1:
+        raise ValueError("max_alert_rate must be between 0 and 1")
 
     # Enumerate generously past the budget so the optimiser can see that the
     # cost is still falling when it hits the constraint.
@@ -136,7 +140,10 @@ def candidate_thresholds(
     tail = np.sort(s)[-min(tail_size, n):]
 
     coarse = np.quantile(s, np.linspace(0.0, 1.0, n_coarse))
-    return np.unique(np.concatenate([coarse, tail]))
+    # >= cannot split tied scores. Always include a feasible zero-alert
+    # decision, even when the highest probability is exactly one.
+    no_alerts = np.nextafter(s.max(), np.inf)
+    return np.unique(np.concatenate([coarse, tail, [no_alerts]]))
 
 
 def cost_curve(
